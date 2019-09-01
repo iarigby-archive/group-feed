@@ -1,57 +1,48 @@
 function main(response) {
     console.log(`received response of ${response.data.length}`) 
-    
-    let i = 0
-    for (post of response.data) {
-        i++
-        // post.message and post.
-        console.log(post.from)
-        setTimeout(function() {
-            FB.api(
-            `/${post.id}/comments`,
-            function (response) {
-                if (response && !response.error) {
-                    get_comments(response.data)
-                    /* handle the result */
-                } else {
-                    console.log(response.error)
-                }
-            }
-            )}, i*100)
-    }
+    send_delayed_request({
+        list: response.data,
+        endpoint_function: function(post) {
+            return `/${post.id}/comments`
+        },
+        callback_function: get_comments
+    })       
 }
-
 function get_comments(comments) {
-    for (comment of comments) {
-        FB.api(
-            `/${comment.id}`,
-            function (response) {
-                if (response && !response.error) {
-                    console.log(response)
-                }
-            }
-        )
-    }
+    send_delayed_request({
+        list: response,
+        endpoint_function: function(comment) {
+            return `/${comment.id}/from`
+        },
+        callback_function: default_callback
+    })
 }
 
-function send_delayed_request(arr, endpoint_function) {
+function default_callback(result) {
+    console.log(result)
+}
+
+function send_delayed_request(list, endpoint_function, callback, error_callback) {
     let i = 0
     for (el of arr) {
         i++
-        setTimeout(function(el) {
-            FB.api(
-                endpoint_function(el),
-                function(response) {
-                    if (response && !response.error) {
-                        callback(response)
-                    } else {
-                        console.log(response.error)
-                    }
-                })
+        setTimeout(function(elem) {
+            facebook_request(endpoint_function(elem), callback, error_callback)
         }(el), i*500)
     }
 }
 // fb crap
+function facebook_request(endpoint, callback, error_callback) {
+    FB.api(
+        endpoint,
+        function(response) {
+            if (response && !response.error) {
+                callback(response) || default_callback(response)
+            } else {
+                error_callback(response.error) || default_callback(response.error)
+            }
+        })
+}
 
 window.fbAsyncInit = function() {
     FB.init({
