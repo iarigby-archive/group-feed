@@ -18,3 +18,5 @@ https://ngrok.com/
 1584277985125434 წავედით
 1473567402914154 411
 https://www.facebook.com/help/261149227954100
+* permissions
+https://stackoverflow.com/questions/52304018/facebook-api-how-to-add-application-to-group-in-developer-mode
