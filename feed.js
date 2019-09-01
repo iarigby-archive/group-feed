@@ -5,14 +5,14 @@ function main(response) {
         endpoint_function: function(post) {
             return `/${post.id}/comments`
         },
-        callback_function: get_comments
+        callback: get_comments
     })       
 }
 function get_comments(comments) {
     send_delayed_request({
-        list: response,
+        list: comments.data,
         endpoint_function: function(comment) {
-            return `/${comment.id}/from`
+            return `/${comment.id}`
         },
         callback_function: default_callback
     })
@@ -22,12 +22,14 @@ function default_callback(result) {
     console.log(result)
 }
 
-function send_delayed_request(list, endpoint_function, callback, error_callback) {
+function send_delayed_request(params) {
     let i = 0
-    for (el of arr) {
+    for (el of params.list) {
         i++
         setTimeout(function(elem) {
-            facebook_request(endpoint_function(elem), callback, error_callback)
+            facebook_request(params.endpoint_function(elem),
+                             params.callback,
+                             params.error_callback)
         }(el), i*500)
     }
 }
@@ -37,9 +39,9 @@ function facebook_request(endpoint, callback, error_callback) {
         endpoint,
         function(response) {
             if (response && !response.error) {
-                callback(response) || default_callback(response)
+                callback && callback(response) || default_callback(response)
             } else {
-                error_callback(response.error) || default_callback(response.error)
+                error_callback && error_callback(response.error) || default_callback(response.error)
             }
         })
 }

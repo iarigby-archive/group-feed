@@ -3,6 +3,7 @@
 https://developers.facebook.com/docs/graph-api/reference/v4.0/group/feed
 https://developers.facebook.com/docs/graph-api/reference/post
 https://developers.facebook.com/docs/graph-api/reference/post/comments/
+https://developers.facebook.com/docs/graph-api/reference/v4.0/comment
 * dev
 https://dev.to/rhymes/really-easy-way-to-use-https-on-localhost-341m
 
