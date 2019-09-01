@@ -1,0 +1,20 @@
+#+TITLE: notes
+* api
+https://developers.facebook.com/docs/graph-api/reference/v4.0/group/feed
+https://developers.facebook.com/docs/graph-api/reference/post
+https://developers.facebook.com/docs/graph-api/reference/post/comments/
+* dev
+https://dev.to/rhymes/really-easy-way-to-use-https-on-localhost-341m
+
+yay -S --needed mkcert nodejs-http-server
+# mkcert -instal1l
+# in current dir
+mkcert localhost
+http-server -S -C ./localhost.pem -K ./localhost-key.pem
+
+* other resources
+https://ngrok.com/
+* groups
+1584277985125434 წავედით
+1473567402914154 411
+https://www.facebook.com/help/261149227954100
